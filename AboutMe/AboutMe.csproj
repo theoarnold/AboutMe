@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-AboutMe-0c5aa41d-bf93-4885-be78-f41d182e0d3d</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3" />
+    <PackageReference Include="Microsoft.JSInterop" Version="8.0.3" />
+    <PackageReference Include="Octokit" Version="10.0.0" />
+    <PackageReference Include="WYSIWYGTextEditor" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\ThreeJSFunctions.js" />
+  </ItemGroup>
+
+</Project>

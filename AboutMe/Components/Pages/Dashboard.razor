@@ -1,0 +1,140 @@
+﻿@page "/Dashboard"
+@namespace OnlinePortfolio.Pages
+@inject IAppInfoService AppInfoService;
+@using AboutMe.Data;
+@using AboutMe.Services;
+@using Microsoft.AspNetCore.Components.Authorization
+@using WYSIWYGTextEditor
+
+<CascadingAuthenticationState>
+        <AuthorizeView>
+            <Authorized>
+                <p></p>
+                <!-- Fetch AppInfo.Bio and use it as the default value in a TextInput -->
+                <div class="boxDash">
+                    <p id="dashboard"><b>Dashboard</b> <a href="">Home</a></p>
+                    <p></p>
+                    @if (applicationInfo == null)
+                    {
+                        <div id="html-spinner"></div>
+                    }
+                    else
+                    {
+                        <p>Biography</p>
+                    <TextEditor @ref="@myEditor">
+                        <ToolbarContent>
+                            <select class="ql-header">
+                                <option selected=""></option>
+                                <option value="1"></option>
+                                <option value="2"></option>
+                                <option value="3"></option>
+                                <option value="4"></option>
+                                <option value="5"></option>
+                            </select>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                                <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <select class="ql-color"></select>
+                                <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-link"></button>
+                            </span>
+                        </ToolbarContent>
+                        <EditorContent>
+                            <div id="font">
+                            @bioMarkup
+                            </div>
+                        </EditorContent>
+                    </TextEditor>
+                     <hr>
+                     <p>GitHub Projects</p>
+                     <label for="text">GitHub Username</label>
+                    <input class="textStandard" type="text" @bind="@applicationInfo.GithubName" />
+                     <br>
+                     <label for="password">GitHub Credentials</label>
+                    <input class="textStandard" type="password" @bind="@applicationInfo.GithubCred" />
+                    <hr>
+                    <p>Link Buttons</p>
+                    @foreach (var button in buttons)
+                    {
+                        <div class="buttonEdit">
+                            <span>
+                            <input class="buttonName" type="text" @bind="button.ButtonText" />
+                            <input class="buttonUrl" type="text" @bind="button.ButtonUrl" />
+                                <input type="color" class="buttonColour" @bind="button.ButtonColourHex">
+                                <button type="button" @onclick="() => ButtonDelete(button)" class="buttonDelete">Delete</button>
+                            </span>
+                        </div>
+                    }
+                    <div class="buttonAddEdit">
+                        <span>
+                         <nobr>+</nobr>
+                         <input class="buttonName" type="text" @bind="newButtInfo.ButtonText" placeholder="Link Name" />
+                         <input class="buttonUrl" @bind="newButtInfo.ButtonUrl" type="text" placeholder="URL" />
+                         <input type="color" @bind="newButtInfo.ButtonColourHex" class="buttonColour">
+                         <button type="button" @onclick="ButtonAdd" class="buttonAdd">Add</button>
+                        </span>
+                    </div>
+                    <hr>
+                     <button type="submit" @onclick="UpdateBio" class= "buttonSave">Save</button>
+                    }
+                </div>
+            </Authorized>
+        <NotAuthorized>
+            <div class="title"><h5>You must be an admin to view the dashboard.</h5></div>
+        </NotAuthorized>
+        </AuthorizeView>
+
+    @code {
+        private ApplicationInfo applicationInfo;
+        private List<ButtonInfo> buttons;
+
+        TextEditor myEditor;
+        private MarkupString bioMarkup;
+        private string bio;
+
+        private ButtonInfo newButtInfo = new ButtonInfo();
+
+        protected override async Task OnInitializedAsync()
+        {
+            // Fetch AppInfo data including Bio
+            applicationInfo = await AppInfoService.GetAppInfoAsync();
+            buttons = applicationInfo.Buttons;
+            bioMarkup = new MarkupString(applicationInfo.Bio);
+        }
+
+        public async Task<string> GetHTML()
+        {
+            return await this.myEditor.GetHTML();
+        }
+
+        private void ButtonDelete(ButtonInfo buttonToDelete)
+        {
+            buttons.Remove(buttonToDelete);
+        }
+
+        private void ButtonAdd()
+        {
+            buttons.Add(newButtInfo);
+        }
+
+        private async Task UpdateBio()
+        {
+            applicationInfo.Bio = await GetHTML();
+
+            // Handle the form submission logic
+            await AppInfoService.UpdateAppInfoAsync(applicationInfo);
+            await AppInfoService.UpdateButtonsAsync(buttons);
+        }
+
+    }
+</CascadingAuthenticationState>

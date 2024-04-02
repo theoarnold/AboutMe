@@ -1,0 +1,49 @@
+﻿@page "/"
+@namespace AboutMe
+@inject IAppInfoService AppInfoService
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+@using AboutMe.Components.Pages.Components
+@using AboutMe.Data
+@using AboutMe.Services
+
+<div id="container">
+    <div id="threejscontainer"></div>
+</div>
+
+@if (applicationInfo != null)
+{
+    <div class="row">
+        <div class="column">
+            <Info Title="About me" ApplicationInfo="@applicationInfo"/>
+        </div>
+        <div class="column">
+            <RepoList ApplicationInfo="@applicationInfo" />
+        </div>
+    </div>
+}
+
+<div class="footer">
+    theoa.me | <a href="/Dashboard">Admin</a>
+</div>
+
+@code {
+    private ApplicationInfo applicationInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationInfo = await AppInfoService.GetAppInfoAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.load");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while invoking ThreeJSFunctions.load: {ex.Message}");
+        }
+    }
+}

@@ -1,0 +1,46 @@
+﻿<!-- RepoList.razor -->
+@using AboutMe.Data
+@using AboutMe.Services
+
+@inject IGitHubRepoService GitHubRepoService
+
+<div class="boxRepo">
+    <div class="title"><h5>Projects</h5></div>
+    <div class="inner">
+        @if (Repositories == null)
+        {
+            <div id="html-spinner"></div>
+        }
+        else if (Repositories.Count == 0)
+        {
+            <p>No public repositories found for the user.</p>
+        }
+        else
+        {
+            @foreach (var repo in Repositories)
+            {
+                <a href="@repo.Url">
+                    <div class="repo">
+                        <h4>@repo.Title</h4>
+                        <p id="date"><strong>Updated:</strong> @repo.UploadDate.LocalDateTime</p>
+                        <div class="lang">
+                            <p class="@IndexTools.GetPrimaryLanguageCssClass(repo.PrimaryLanguage)">@IndexTools.ModifyPrimaryLanguage(repo.PrimaryLanguage)</p>
+                        </div>
+                    </div>
+                </a>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ApplicationInfo ApplicationInfo { get; set; }
+
+    private List<GitHubRepo> Repositories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Repositories = await GitHubRepoService.GetPublicRepositories(ApplicationInfo);
+    }
+}

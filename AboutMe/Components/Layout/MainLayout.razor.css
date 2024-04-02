@@ -1,0 +1,15 @@
+.header {
+    background: #12171c;
+    height: 50px;
+    padding-bottom: 10px; /* Add padding to prevent overlap */
+}
+.caret-underscore {
+    margin: 0; /* Remove default margins */
+    position: fixed; /* Position fixed to stay on top */
+    top: 0; /* Place at the top */
+    left: 0; /* Align to the left */
+    z-index: 9999; /* Set high z-index to ensure it's on top */
+}
+.blink_me {
+    animation: blinker 0.9s linear infinite;
+}

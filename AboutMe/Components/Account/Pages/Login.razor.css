@@ -1,0 +1,5 @@
+﻿html, body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #0a0a0a;
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}

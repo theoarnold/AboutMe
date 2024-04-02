@@ -1,0 +1,34 @@
+﻿@using AboutMe.Data
+@using AboutMe.Services
+
+<div class="box">
+    <div class="title"><h5>@Title</h5></div>
+    <div class="textarea">
+        @if (ApplicationInfo == null)
+        {
+            <div id="html-spinner"></div>
+        }
+        else
+        {
+            <div>@(new MarkupString(ApplicationInfo.Bio))</div>
+            <div id="buttons">
+                @foreach (var button in ApplicationInfo.Buttons)
+                {
+                    <a href="@button.ButtonUrl">
+                        <div class="button" style="background: @button.ButtonColourHex; width: min-content;">
+                            @button.ButtonText
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public ApplicationInfo ApplicationInfo { get; set; }
+}
