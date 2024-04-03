@@ -60,6 +60,11 @@
 
     public async Task RegisterUser(EditContext editContext)
     {
+        // Don't allow the creation of new account if there is already an account.
+        // This will be improved later along with the new css for the login forms
+        var users = UserManager.Users.FirstOrDefault();
+        if (users is null)
+        {
         var user = CreateUser();
 
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -93,6 +98,7 @@
 
         await SignInManager.SignInAsync(user, isPersistent: false);
         RedirectManager.RedirectTo(ReturnUrl);
+        }
     }
 
     private ApplicationUser CreateUser()

@@ -466,22 +466,6 @@ h4 {
     font-size: 18px;
 }
 
-#bioInput {
-    width: 60%;
-    height: 150px;
-    padding: 5px;
-    margin: 5px;
-    background: rgba(132, 134, 135, 0.27);
-    color: white;
-    border-radius: 15px;
-    border-color: dimgray;
-    border-color: dimgray;
-    border: solid;
-    border-width: 1px;
-    margin-left: 20px;
-    font-family: 'Roboto Mono', monospace;
-}
-
 .textStandard {
     width: 300px;
     padding: 5px;

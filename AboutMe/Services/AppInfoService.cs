@@ -15,11 +15,9 @@ namespace AboutMe.Services
 
         public async Task<ApplicationInfo> GetAppInfoAsync()
         {
-            ApplicationInfo? result = await _dbContext.ApplicationInfos
+            return await _dbContext.ApplicationInfos
                 .Include(info => info.Buttons)
                 .FirstOrDefaultAsync() ?? new ApplicationInfo { Bio = "Error, this shouldn't be missing so you broke something!", };
-
-            return result;
         }
 
         public async Task UpdateAppInfoAsync(ApplicationInfo updatedAppInfo)

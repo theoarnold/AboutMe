@@ -1,12 +1,11 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 @namespace AboutMe
 @inject IAppInfoService AppInfoService
 @inject IJSRuntime JSRuntime
-@rendermode InteractiveServer
 @using AboutMe.Components.Pages.Components
 @using AboutMe.Data
 @using AboutMe.Services
-
 <div id="container">
     <div id="threejscontainer"></div>
 </div>
