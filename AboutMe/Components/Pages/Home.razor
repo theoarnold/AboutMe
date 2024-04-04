@@ -36,6 +36,13 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.load");
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.load");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while invoking ThreeJSFunctions.load: {ex.Message}");
+        }
     }
 }
