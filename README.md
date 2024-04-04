@@ -2,7 +2,7 @@ AboutMe (theoa.me)
 
 A portfolio site that displays your public github repos and an "about me" section. All of this can be edited any time by logging into an admin account and using the control panel to edit their profile.
 
-Developed for my website (theoa.me) it is currently being tested on https://aboutme20240404014121.azurewebsites.net/.
+Developed for my website (theoa.me) but isn't live yet. A preview is available here: https://aboutme20240404014121.azurewebsites.net/.
 
 
 Landing Page:
